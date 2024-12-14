@@ -1,2 +1,1 @@
-# tripsync
-Trip planning application
+# TripSync
