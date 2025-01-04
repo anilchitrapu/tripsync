@@ -51,7 +51,7 @@ function Navbar() {
 
     return (
         <nav className="bg-white dark:bg-gray-800 shadow-sm dark:shadow-gray-900/30 fixed top-0 left-0 right-0 z-50">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between h-16">
                     <div className="flex">
                         <Link to="/" className="flex items-center">
@@ -60,7 +60,7 @@ function Navbar() {
                     </div>
 
                     {user && (
-                        <div className="flex items-center space-x-4">
+                        <div className="flex items-center space-x-2 sm:space-x-4">
                             <div onClick={handleMyEventsClick}>
                                 <Link 
                                     to="/"
@@ -72,7 +72,7 @@ function Navbar() {
                             <div className="relative" ref={dropdownRef}>
                                 <button
                                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                    className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+                                    className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
                                 >
                                     <UserAvatar 
                                         userId={user.uid}

@@ -38,10 +38,7 @@ function CreateEvent() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!user) {
-            console.error("No user logged in. Cannot create event.");
-            return;
-        }
+        if (!user) return;
 
         try {
             const eventData = {
@@ -51,25 +48,30 @@ function CreateEvent() {
                 location,
                 description,
                 acceptingSubmissions,
-                createdBy: user.uid,
+                userId: user.uid,
                 createdAt: serverTimestamp(),
                 updatedAt: serverTimestamp()
             };
-
-            const eventRef = await addDoc(collection(db, 'events'), eventData);
-
+            
+            if (process.env.NODE_ENV === 'development') {
+                console.log('Creating event with data:', eventData);
+            }
+            
+            const docRef = await addDoc(collection(db, 'events'), eventData);
+            setEventId(docRef.id);
             setIsSuccess(true);
-            setEventId(eventRef.id);
         } catch (error) {
             console.error('Error creating event:', error);
         }
     };
 
     return (
-        <div className="min-h-screen py-8 px-4 bg-gray-50 dark:bg-gray-900">
-            <div className="max-w-2xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
-                <h2 className="text-2xl font-semibold text-center mb-8 text-gray-900 dark:text-white">Create an Event</h2>
-                <form onSubmit={handleSubmit}>
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 px-4 sm:px-6 py-6 sm:py-8">
+            <div className="max-w-lg mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 sm:p-6">
+                <h2 className="text-2xl font-semibold text-center mb-6 text-gray-900 dark:text-white">
+                    Create an Event
+                </h2>
+                <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="form-group">
                         <label className="form-label text-gray-700 dark:text-gray-300">Event Name</label>
                         <input
@@ -147,14 +149,12 @@ function CreateEvent() {
                         </label>
                     </div>
 
-                    <button 
-                        type="submit" 
-                        className="button button-secondary dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white flex items-center gap-2"
+                    <button
+                        type="submit"
+                        className="button button-primary dark:bg-blue-600 dark:hover:bg-blue-700 dark:text-white
+                                   w-full sm:w-auto"
                     >
-                        <span>Create Event</span>
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                        </svg>
+                        Create Event
                     </button>
 
                     {isSuccess && (

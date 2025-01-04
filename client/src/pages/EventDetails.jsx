@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { useParams } from 'react-router-dom';
-import { doc, getDoc, updateDoc, serverTimestamp } from 'firebase/firestore';
+import { useParams, useNavigate } from 'react-router-dom';
+import { doc, getDoc, updateDoc, serverTimestamp, deleteDoc } from 'firebase/firestore';
 import { db } from '../utils/firebaseConfig';
 import { useAuth } from '../context/AuthContext';
 import UnauthorizedEventView from '../components/event/UnauthorizedEventView';
@@ -25,8 +25,19 @@ function EventDetails() {
     }, [attendees, user?.uid]);
 
     const isOwner = useMemo(() => {
-        return event?.userId === user?.uid;
-    }, [event?.userId, user?.uid]);
+        const eventOwner = event?.userId || event?.createdBy;
+        const isMatch = eventOwner === user?.uid;
+        
+        if (process.env.NODE_ENV === 'development') {
+            console.log('Ownership Check:', {
+                eventOwner,
+                currentUserId: user?.uid,
+                isMatch
+            });
+        }
+        
+        return isMatch;
+    }, [event?.userId, event?.createdBy, user?.uid]);
 
     // Fetch basic event details (public data)
     useEffect(() => {
@@ -68,7 +79,19 @@ function EventDetails() {
                 const eventDoc = await getDoc(eventRef);
                 
                 if (eventDoc.exists()) {
-                    setEvent({ id: eventDoc.id, ...eventDoc.data() });
+                    const eventData = eventDoc.data();
+                    if (process.env.NODE_ENV === 'development') {
+                        console.log('Event Data:', { ...eventData, id: eventDoc.id });
+                    }
+                    
+                    // Normalize the owner field
+                    const normalizedData = {
+                        id: eventDoc.id,
+                        ...eventData,
+                        userId: eventData.userId || eventData.createdBy // Consistently use userId
+                    };
+                    
+                    setEvent(normalizedData);
                 }
             } catch (err) {
                 console.error('Error fetching full event details:', err);
@@ -106,6 +129,29 @@ function EventDetails() {
             throw new Error('Failed to update event. Please try again.');
         }
     };
+
+    const navigate = useNavigate();
+    const handleDeleteEvent = async () => {
+        if (!user) return;
+        try {
+            await deleteDoc(doc(db, 'events', eventId));
+            navigate('/home'); // or wherever you want to go after deletion
+        } catch (err) {
+            console.error('Error deleting event:', err);
+            setError('Failed to delete event. Please try again.');
+        }
+    };
+
+    // Add debug log before render
+    useEffect(() => {
+        if (event && user) {
+            console.log('Current State:', {
+                event,
+                user: user.uid,
+                isOwner
+            });
+        }
+    }, [event, user, isOwner]);
 
     if (loading || authLoading) {
         return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
@@ -147,6 +193,7 @@ function EventDetails() {
                         event={event}
                         isOwner={isOwner}
                         onSave={handleSaveEvent}
+                        onDelete={handleDeleteEvent}
                     />
                 </div>
 

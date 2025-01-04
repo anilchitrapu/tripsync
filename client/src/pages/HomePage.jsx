@@ -116,8 +116,8 @@ function HomePage() {
     };
 
     return (
-        <div className="min-h-screen p-4 sm:py-8 bg-gray-50 dark:bg-gray-900">
-            <div className="max-w-6xl mx-auto space-y-4 sm:space-y-6">
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 px-4 sm:px-6 py-6 sm:py-8">
+            <div className="max-w-2xl mx-auto space-y-6">
                 {/* Header Card */}
                 <div className="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-lg shadow-sm">
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
@@ -144,9 +144,9 @@ function HomePage() {
                 {/* Events List Card */}
                 <div className="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-lg shadow-sm">
                     {eventsLoading ? (
-                        <div className="text-center py-8 text-gray-600 dark:text-gray-300">Loading your events...</div>
+                        <div className="text-center py-6 text-gray-600 dark:text-gray-300">Loading your events...</div>
                     ) : events.length === 0 ? (
-                        <div className="text-center py-6 sm:py-8 px-4">
+                        <div className="text-center py-6 px-4">
                             <p className="text-gray-600 dark:text-gray-300 mb-4">You haven't created any events yet.</p>
                             <Link
                                 to="/create-event"

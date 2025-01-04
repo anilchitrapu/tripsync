@@ -14,14 +14,18 @@ function AuthPage() {
     }, [user, loading, navigate]);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+            Loading...
+        </div>;
     }
 
     if (!user) {
         return (
-            <div className="min-h-screen flex items-center justify-center">
-                <div className="form-container">
-                    <h1 className="text-3xl font-bold mb-6 text-center">Sign Up or Log In</h1>
+            <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4 py-6">
+                <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 sm:p-6">
+                    <h1 className="text-3xl font-bold mb-6 text-center text-gray-900 dark:text-white">
+                        Sign Up or Log In
+                    </h1>
                     <AuthForm />
                 </div>
             </div>

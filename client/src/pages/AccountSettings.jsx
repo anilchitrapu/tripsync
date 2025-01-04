@@ -45,7 +45,9 @@ function AccountSettings() {
     }, [user]);
 
     if (!user) {
-        return <div className="min-h-screen flex items-center justify-center">Please log in to view your account settings.</div>;
+        return <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4">
+            Please log in to view your account settings.
+        </div>;
     }
 
     // Reference the reauthorize function from old AccountSettings
@@ -181,10 +183,11 @@ function AccountSettings() {
     };
 
     return (
-        <div className="min-h-screen py-8 px-4 bg-gray-50 dark:bg-gray-900">
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 px-4 sm:px-6 py-6 sm:py-8">
             <div className="max-w-2xl mx-auto space-y-6">
                 {/* Profile Section */}
-                <section className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+                <section className="p-4 sm:p-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm
+                                   border border-gray-200 dark:border-gray-700">
                     <h2 className="text-xl font-medium mb-4 text-gray-900 dark:text-white">Profile Information</h2>
                     <form onSubmit={handleProfileUpdate} className="space-y-4">
                         <div className="form-group">
@@ -219,7 +222,8 @@ function AccountSettings() {
                 </section>
 
                 {/* Email Section */}
-                <section className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+                <section className="p-4 sm:p-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm
+                                   border border-gray-200 dark:border-gray-700">
                     <h2 className="text-xl font-medium mb-4 text-gray-900 dark:text-white">Update Email</h2>
                     <form onSubmit={handleEmailChange} className="space-y-4">
                         <div className="form-group">
@@ -266,7 +270,8 @@ function AccountSettings() {
                 </section>
 
                 {/* Password Section */}
-                <section className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+                <section className="p-4 sm:p-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm
+                                   border border-gray-200 dark:border-gray-700">
                     <h2 className="text-xl font-medium mb-4 text-gray-900 dark:text-white">Change Password</h2>
                     <form onSubmit={handlePasswordChange} className="space-y-4">
                         <div className="form-group">
@@ -343,7 +348,8 @@ function AccountSettings() {
                 </section>
 
                 {/* Delete Account Section */}
-                <section className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-red-200 dark:border-red-900">
+                <section className="p-4 sm:p-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm
+                                   border border-red-200 dark:border-red-900">
                     <h2 className="text-xl font-medium mb-4 text-red-600 dark:text-red-400">Delete Account</h2>
                     <p className="text-gray-600 dark:text-gray-300 mb-4">
                         Once you delete your account, all your data will be permanently removed. This action cannot be undone.
