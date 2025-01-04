@@ -38,13 +38,26 @@ function EventHeader({ event, isOwner, onSave, onDelete }) {
                         <h1 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white break-words">
                             {event.eventName}
                         </h1>
-                        <span className={`px-3 py-1 rounded-full text-sm whitespace-nowrap ${
-                            event.acceptingSubmissions 
-                                ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200' 
-                                : 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200'
-                        }`}>
-                            {event.acceptingSubmissions ? 'Accepting Submissions' : 'Submissions Closed'}
-                        </span>
+                        {isOwner ? (
+                            <button
+                                onClick={toggleEventStatus}
+                                className={`px-3 py-1 rounded-full text-sm whitespace-nowrap transition-colors ${
+                                    event.acceptingSubmissions 
+                                        ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 hover:bg-green-200 dark:hover:bg-green-800' 
+                                        : 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 hover:bg-red-200 dark:hover:bg-red-800'
+                                }`}
+                            >
+                                {event.acceptingSubmissions ? 'Accepting Submissions' : 'Closed'}
+                            </button>
+                        ) : (
+                            <span className={`px-3 py-1 rounded-full text-sm whitespace-nowrap ${
+                                event.acceptingSubmissions 
+                                    ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200' 
+                                    : 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200'
+                            }`}>
+                                {event.acceptingSubmissions ? 'Accepting Submissions' : 'Closed'}
+                            </span>
+                        )}
                     </div>
                     <div className="space-y-2 text-sm sm:text-base text-gray-600 dark:text-gray-300">
                         <p>Start: {format(parseISO(event.startDate), 'PPP p')}</p>
@@ -92,16 +105,6 @@ function EventHeader({ event, isOwner, onSave, onDelete }) {
                         <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                         </svg>
-                    </button>
-                    <button 
-                        onClick={toggleEventStatus}
-                        className={`button button-secondary flex items-center justify-center gap-2 w-full sm:w-auto ${
-                            event.acceptingSubmissions 
-                                ? 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 hover:bg-red-200 dark:hover:bg-red-800' 
-                                : 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 hover:bg-green-200 dark:hover:bg-green-800'
-                        }`}
-                    >
-                        <span>{event.acceptingSubmissions ? 'Close Submissions' : 'Accept Submissions'}</span>
                     </button>
                     <button
                         onClick={() => setIsDeleteModalOpen(true)}

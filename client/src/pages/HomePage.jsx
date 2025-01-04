@@ -187,7 +187,7 @@ function HomePage() {
                                                     ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' 
                                                     : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
                                             }`}>
-                                                {event.acceptingSubmissions ? 'Accepting Submissions' : 'Submissions Closed'}
+                                                {event.acceptingSubmissions ? 'Accepting Submissions' : 'Closed'}
                                             </span>
                                             <span className="text-sm text-gray-500 dark:text-gray-400">
                                                 Created {new Date(event.createdAt?.toDate()).toLocaleDateString()}
